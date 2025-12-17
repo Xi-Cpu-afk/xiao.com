@@ -25,7 +25,7 @@
   <main class="container">
     <section class="section hero">
      <div class="hero-avatar">
-       <img src="profilexiao.jpg" alt="Mac Xiaobin Villacrusis">
+       <img src="c:\1700925\profilexiao.jpg" alt="Mac Xiaobin Villacrusis">
      </div>
       <div class="hero-content">
         <h2 class="hero-name">Mac Xiaobin Villacrusis <span class="verified-badge" title="Verified on Facebook">
@@ -39,7 +39,7 @@
           <span>📍</span>
           <span>Calapan City, Oriental Mindoro, Philippines</span>
         </div>
-        <p class="hero-title">Software AI Engineer</p>
+        <p class="hero-title">Software Engineer</p>
         <div class="badge">💻 Software Development </div>
         <div class="button-group">
 
@@ -203,19 +203,43 @@
 
     <div class="cert-card">
       <div class="cert-name">Social Engineering</div>
-      <div class="cert-org">Ethical Haking Academy</div>
+      <div class="cert-org">Ethical Hacking Academy</div>
     </div>
   </div> 
 </section>
 
     <section class="section">
       <h3 class="section-title">💬 Recommendations</h3>
-      <div class="recommendation">
-        <p class="recommendation-text">"I was just a K-12 undergrad with zero coding experience, but with the guidance of my good friend Xiao, I was able to learn and grow exponentially. His mentorship helped me to develop a strong foundation in programming, and I'm now a full-stack developer working freelance..."</p>
-        <div>
-          <div class="recommendation-author">Aironn Datinguinoo</div>
-          <div class="recommendation-title">BPI Full-stack Developer, Freelance</div>
+      <div class="slider-wrapper">
+        <button class="slider-btn prev" id="prevBtn">❮</button>
+        
+        <div class="recommendations-slider" id="recoSlider">
+          <div class="recommendation">
+            <p class="recommendation-text">"Me & Xiao are classmates, but with the guidance of my good friend Xiao, I was able to learn and grow exponentially. His mentorship helped me to develop a strong foundation in programming..."</p>
+            <div>
+              <div class="recommendation-author">Aironn Datinguinoo</div>
+              <div class="recommendation-title">BPI Full-stack Developer, Freelance</div>
+            </div>
+          </div>
+
+          <div class="recommendation">
+            <p class="recommendation-text">"Xiao was my Senior during college his expertise in AI and software engineering is truly impressive. He has a unique ability to bridge the gap between complex machine learning concepts and practical, scalable applications."</p>
+            <div>
+              <div class="recommendation-author">Miguel Sandoval</div>
+              <div class="recommendation-title">Data Engineer</div>
+            </div>
+          </div>
+
+          <div class="recommendation">
+            <p class="recommendation-text">"My Friend was a dedicated professional who consistently delivers high-quality results. Xiao's passion for emerging technologies and his problem-solving mindset make him an invaluable asset to any development team."</p>
+            <div>
+              <div class="recommendation-author">Apollo Ebora</div>
+              <div class="recommendation-title">Tech Lead & Collaborator</div>
+            </div>
+          </div>
         </div>
+
+        <button class="slider-btn next" id="nextBtn">❯</button>
       </div>
     </section>
 
@@ -898,6 +922,57 @@
           .chat-send:hover { 
       background: #1d4ed8; 
     }
+  .slider-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .recommendations-slider {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+      padding: 0.5rem;
+    }
+
+    .recommendations-slider::-webkit-scrollbar {
+      display: none; /* Hide scrollbar Chrome/Safari */
+    }
+
+    .recommendation {
+      min-width: 100%; /* Shows one card at a time */
+      flex-shrink: 0;
+      background: var(--bg-primary);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+
+    /* Change min-width to 45% on tablets/desktops to show more than one */
+    @media (min-width: 768px) {
+      .recommendation { min-width: calc(50% - 1rem); }
+    }
+
+    .slider-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      position: absolute;
+      z-index: 10;
+      box-shadow: 0 4px 6px var(--shadow);
+      transition: all 0.3s;
+    }
+
+    .slider-btn:hover { background: var(--bg-secondary); }
+    .slider-btn.prev { left: -20px; }
+    .slider-btn.next { right: -20px; }
+  
   </style>
 
   <script>
@@ -923,10 +998,10 @@
     const kb = {
       exp: "Xiao is a Software AI Engineer at Chartered Tech. with extensive experience in AI, full-stack development, and leadership roles.",
       skills: "Xiao specializes in JavaScript, TypeScript, React, Next.js, Vue.js, Python, PHP, Node.js, and cloud technologies like AWS, Docker, and Kubernetes.",
-      proj: "Xiao developed the Gigahertz Web, part of BASE404 (coding bootcamp), developer of CodeCrev (AI wardrobe assistant), and DYNAMIS (AI workout tracker).",
+      proj: "Xiao is part of the team that developed the Gigahertz Web, part of BASE404 (coding bootcamp), one of the developers of Chatime.ph, and The lead developer of the 1st CpE Congress in AI & CyberSecurity.",
       edu: "Xiao holds a BS in Computer Engineering from the University of Batangas (2026).",
       ach: "Xiao is a DICT Web Development and part of CodeCrev a community of over 200,000 developers.",
-      contact: "You can reach Xiao via email at macxiaobin0517@gmail.com or schedule a call through his personal number or check his socials in the web below ."
+      contact: "You can reach Xiao via email at macxiaobin0517@gmail.com or schedule a call through his personal number, you can also check his socials in the web below ."
     };
 
     function genResp(inp) {
@@ -974,6 +1049,20 @@
         addMsg(genResp(msg), 'bot');
       }, 800);
     }
+    
+    const slider = document.getElementById('recoSlider');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    nextBtn.onclick = () => {
+      // Slides right by the width of one recommendation card
+      slider.scrollLeft += slider.offsetWidth;
+    };
+
+    prevBtn.onclick = () => {
+      // Slides left
+      slider.scrollLeft -= slider.offsetWidth;
+    };
 
     chatButton.onclick = () => chatWindow.classList.add('open');
     chatClose.onclick = () => chatWindow.classList.remove('open');
@@ -982,4 +1071,3 @@
   </script>
 </body>
 </html>
-
